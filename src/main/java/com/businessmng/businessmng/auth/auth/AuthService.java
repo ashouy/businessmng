@@ -22,7 +22,23 @@ public class AuthService {
   }
 
   public Optional<AuthResponse> login(LoginRequest request, boolean secureCookie, String cookiePath) {
-    // TODO: Replace with real user lookup and password check.
+    // TODO: Implement real user lookup and password validation.
+    // Steps to implement:
+    // 1. Create a User entity class with id, username, email, passwordHash fields
+    // 2. Create UserRepository interface extending JpaRepository<User, Long>
+    // 3. Inject UserRepository into AuthService
+    // 4. Look up user by username: userRepository.findByUsername(request.login())
+    // 5. Validate password using Spring Security's PasswordEncoder:
+    //    - Inject PasswordEncoder bean (or use BCryptPasswordEncoder)
+    //    - Check: passwordEncoder.matches(request.senha(), user.getPasswordHash())
+    // 6. Return user if credentials are valid
+    // 7. Return empty Optional if user not found or password invalid
+    //
+    // Example implementation:
+    // User user = userRepository.findByUsername(request.login())
+    //     .filter(u -> passwordEncoder.matches(request.senha(), u.getPasswordHash()))
+    //     .orElse(null);
+    
     if (!"admin".equals(request.login()) || !"admin".equals(request.senha())) {
       return Optional.empty();
     }

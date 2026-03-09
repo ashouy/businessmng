@@ -27,7 +27,7 @@ public class AuthController {
 
   public AuthController(
       AuthService authService,
-      @Value("${app.auth.cookie.secure:true}") boolean secureCookie,
+      @Value("${app.auth.cookie.secure:false}") boolean secureCookie,
       @Value("${app.auth.cookie.path:/}") String cookiePath
   ) {
     this.authService = authService;
@@ -79,13 +79,15 @@ public class AuthController {
         .build();
   }
 
-  private String extractTokenFromCookies(HttpServletRequest request) {
-    if (request.getCookies() == null) return null;
-    return Arrays.stream(request.getCookies())
-        .filter(c -> AuthService.JWT_COOKIE_NAME.equals(c.getName()))
-        .findFirst()
-        .map(Cookie::getValue)
-        .orElse(null);
+private String extractTokenFromCookies(HttpServletRequest request) {
+  if (request.getCookies() == null) {
+    return null;  // Add proper return statement
   }
+  return Arrays.stream(request.getCookies())
+      .filter(c -> AuthService.JWT_COOKIE_NAME.equals(c.getName()))
+      .findFirst()
+      .map(Cookie::getValue)
+      .orElse(null);
+}
 }
 
